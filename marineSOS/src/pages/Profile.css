@@ -1,49 +1,54 @@
-.profile-container{
+.hero{
+    min-height:100vh;
+    padding:40px;
+    text-align:center;
+}
 
-    width:420px;
-    margin:40px auto;
+.hero h1{
+    color:white;
+    margin-bottom:30px;
+}
+
+.profile-card{
+    width:450px;
+    margin:auto;
     background:white;
     padding:30px;
     border-radius:15px;
     box-shadow:0 8px 20px rgba(0,0,0,0.2);
-    text-align:center;
-
+    display:flex;
+    flex-direction:column;
+    gap:15px;
 }
 
-.profile-container h1{
-
-    color:#0f4c81;
-    margin-bottom:25px;
-
-}
-
-.profile-container input{
-
+.profile-card input{
     width:100%;
     padding:12px;
-    margin:12px 0;
-    border-radius:8px;
     border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
     box-sizing:border-box;
-
 }
 
-.profile-container button{
+.profile-card input:disabled{
+    background:#f1f1f1;
+    color:#666;
+    cursor:not-allowed;
+}
 
+.profile-card button{
     width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
+    padding:14px;
     background:#0f4c81;
     color:white;
-    font-size:16px;
+    border:none;
+    border-radius:8px;
+    font-size:17px;
     cursor:pointer;
-    margin-top:15px;
-
+    transition:0.3s;
 }
 
-.profile-container button:hover{
-
-    background:#2563eb;
-
+.profile-card button:hover{
+    background:#1565c0;
+    transform:scale(1.02);
 }
