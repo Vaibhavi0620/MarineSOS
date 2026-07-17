@@ -1,0 +1,69 @@
+.hero{
+    text-align:center;
+    padding:40px;
+}
+
+.hero h1{
+    color:white;
+    margin-bottom:30px;
+}
+
+.history-table{
+    width:95%;
+    margin:auto;
+    border-collapse:collapse;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+.history-table th{
+    background:#0f4c81;
+    color:white;
+    padding:15px;
+}
+
+.history-table td{
+    padding:15px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+.history-table tr:nth-child(even){
+    background:#f8fbff;
+}
+
+.history-table tr:hover{
+    background:#e8f1ff;
+}
+
+.history-table a{
+    color:#0f4c81;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.status-pending{
+    background:#ffd54f;
+    color:black;
+    padding:6px 12px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.status-resolved{
+    background:#4caf50;
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.status-cancelled{
+    background:#ef4444;
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-weight:bold;
+}
