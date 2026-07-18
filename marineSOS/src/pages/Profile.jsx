@@ -1,127 +1,104 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { auth, db } from "../firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
 import "./Profile.css";
 
+import { auth, db } from "../firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+
 function Profile() {
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    bloodGroup: "",
-    emergencyContact: ""
-  });
+    const user = auth.currentUser;
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const user = auth.currentUser;
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [bloodGroup, setBloodGroup] = useState("");
+    const [emergencyContact, setEmergencyContact] = useState("");
 
-      if (!user) return;
+    useEffect(() => {
+        const fetchProfile = async () => {
+            if (!user) return;
 
-      try {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          const data = docSnap.data();
+            if (docSnap.exists()) {
+                const data = docSnap.data();
 
-          setUserData({
-            name: data.name || "",
-            email: data.email || user.email,
-            phone: data.phone || "",
-            bloodGroup: data.bloodGroup || "",
-            emergencyContact: data.emergencyContact || ""
-          });
+                setName(data.name || "");
+                setPhone(data.phone || "");
+                setBloodGroup(data.bloodGroup || "");
+                setEmergencyContact(data.emergencyContact || "");
+            }
+        };
+
+        fetchProfile();
+    }, [user]);
+
+    const handleSave = async () => {
+        try {
+            await updateDoc(doc(db, "users", user.uid), {
+                name,
+                phone,
+                bloodGroup,
+                emergencyContact,
+            });
+
+            alert("Profile Updated Successfully!");
+        } catch (error) {
+            alert(error.message);
         }
-      } catch (error) {
-        alert(error.message);
-      }
     };
 
-    fetchProfile();
-  }, []);
+    return (
+        <>
+            <Navbar />
 
-  const handleChange = (e) => {
-    setUserData({
-      ...userData,
-      [e.target.name]: e.target.value
-    });
-  };
+            <div className="hero">
+                <h1>👤 My Profile</h1>
 
-  const saveProfile = async () => {
-    try {
-      const user = auth.currentUser;
+                <div className="profile-card">
 
-      await updateDoc(doc(db, "users", user.uid), {
-        name: userData.name,
-        email: userData.email,
-        phone: userData.phone,
-        bloodGroup: userData.bloodGroup,
-        emergencyContact: userData.emergencyContact
-      });
+                    <input
+                        type="text"
+                        placeholder="Full Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
 
-      alert("✅ Profile Updated Successfully");
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+                    <input
+                        type="email"
+                        value={user?.email || ""}
+                        disabled
+                    />
 
-  return (
-    <>
-      <Navbar />
+                    <input
+                        type="text"
+                        placeholder="Phone Number"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
 
-      <div className="hero">
-        <h1>👤 My Profile</h1>
+                    <input
+                        type="text"
+                        placeholder="Blood Group"
+                        value={bloodGroup}
+                        onChange={(e) => setBloodGroup(e.target.value)}
+                    />
 
-        <div className="profile-card">
+                    <input
+                        type="text"
+                        placeholder="Emergency Contact"
+                        value={emergencyContact}
+                        onChange={(e) => setEmergencyContact(e.target.value)}
+                    />
 
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={userData.name}
-            onChange={handleChange}
-          />
+                    <button onClick={handleSave}>
+                        Save Changes
+                    </button>
 
-          <input
-            type="email"
-            value={userData.email}
-            disabled
-          />
-
-          <input
-            type="text"
-            name="phone"
-            placeholder="Phone Number"
-            value={userData.phone}
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="bloodGroup"
-            placeholder="Blood Group"
-            value={userData.bloodGroup}
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="emergencyContact"
-            placeholder="Emergency Contact"
-            value={userData.emergencyContact}
-            onChange={handleChange}
-          />
-
-          <button onClick={saveProfile}>
-            Save Changes
-          </button>
-
-        </div>
-      </div>
-    </>
-  );
+                </div>
+            </div>
+        </>
+    );
 }
 
 export default Profile;
