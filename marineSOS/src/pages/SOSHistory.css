@@ -20,14 +20,14 @@
 
 .history-table th{
     background:#0f4c81;
-    color:white;
+    color:white !important;
     padding:15px;
 }
-
 .history-table td{
     padding:15px;
     border-bottom:1px solid #ddd;
     text-align:center;
+    color:#222 !important;
 }
 
 .history-table tr:nth-child(even){
